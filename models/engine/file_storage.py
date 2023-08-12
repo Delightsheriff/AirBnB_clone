@@ -32,7 +32,7 @@ class FileStorage:
         Args:
             obj: The instance to be added.
         """
-        key = f"{obj.__class__.__name__}.{obj.id}"
+        key = "{}.{}".format(obj.__class__.__name__.obj.id)
         cls.__objects[key] = obj
 
     @classmethod
