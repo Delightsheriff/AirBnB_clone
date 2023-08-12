@@ -4,8 +4,24 @@ from datetime import datetime
 
 
 class TestBaseModel(unittest.TestCase):
+    def test_init_with_kwargs(self):
+        # Test that the object is initialized correctly with kwargs
+        kwargs = {
+            'id': '12345678-1234-5678-1234-567812345678',
+            'created_at': '2020-06-29T15:27:48.421135',
+            'updated_at': '2020-06-29T15:27:48.421148',
+            'name': 'Test'
+        }
+        obj = BaseModel(**kwargs)
+        self.assertIsInstance(obj, BaseModel)
+        self.assertEqual(obj.id, kwargs['id'])
+        ca = datetime.strptime(kwargs['created_at'], "%Y-%m-%dT%H:%M:%S.%f")
+        ua = datetime.strptime(kwargs['updated_at'], "%Y-%m-%dT%H:%M:%S.%f")
+        self.assertEqual(obj.created_at, ca)
+        self.assertEqual(obj.updated_at, ua)
+        self.assertEqual(obj.name, kwargs['name'])
 
-    def test_init(self):
+    def test_init_without_kwargs(self):
         # Test that the object is initialized correctly
         obj = BaseModel()
         self.assertIsInstance(obj, BaseModel)

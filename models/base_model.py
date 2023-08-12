@@ -16,15 +16,27 @@ class BaseModel:
             created_at (datetime): The creation time of the model instance.
             updated_at (datetime): The update time of the model instance.
     """
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Initialize the BaseModel object.
         """
-        # Generate a unique id for the object
-        self.id = str(uuid4())
-        # Set the creation and update timestamps
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs:
+            # Check if each key in kwargs is `created_at` or `updated_at`.
+            for arg, val in kwargs.items():
+                if arg in ('created_at', 'updated_at'):
+                    # Convert the value to a datetime object
+                    val = datetime.strptime(val, "%Y-%m-%dT%H:%M:%S.%f")
+
+                if arg != '__class__':
+                    # Set the attribute with the given name to the given value,
+                    # if the key is not `__class__`.
+                    setattr(self, arg, val)
+        else:
+            # Generate a unique id for the object
+            self.id = str(uuid4())
+            # Set the creation and update timestamps
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """
