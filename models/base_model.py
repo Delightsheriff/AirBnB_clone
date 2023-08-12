@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from uuid import uuid4
 from datetime import datetime
+import models
 
 """
 A class BaseModel that defines all common attributes/methods for other classes
@@ -49,6 +50,7 @@ class BaseModel:
         Update the update timestamp.
         """
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """
