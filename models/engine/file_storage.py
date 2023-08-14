@@ -57,6 +57,6 @@ class FileStorage:
                 deserial = json.load(R_file)
 
                 for key, obj in deserial.items():
-                    cls.__objects[key] = eval(obj['__class__'])(**obj)
+                    cls.__objects[key] = BaseModel(**obj)
         except FileNotFoundError:
             pass
