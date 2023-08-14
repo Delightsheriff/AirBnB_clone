@@ -57,6 +57,11 @@ class FileStorage:
                 deserial = json.load(R_file)
 
                 for key, obj in deserial.items():
-                    cls.__objects[key] = BaseModel(**obj)
+                    # Check if the class inherits from BaseModel
+                    cls_name = obj["__class__"]
+                    temp = models.base_model.BaseModel
+                    if issubclass(models.__dict__[cls_name], temp):
+                        # Create an instance of the class with **kwargs
+                        cls.__objects[key] = models.__dict__[cls_name](**obj)
         except FileNotFoundError:
             pass
