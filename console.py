@@ -1,196 +1,29 @@
 #!/usr/bin/python3
-""" The HBNB console """
 import cmd
-import sys
-from models.base_model import BaseModel
-from models import storage
+import models
+import shlex
 
 
 class HBNBCommand(cmd.Cmd):
-    """The HBNB console"""
-    all_classes = {
-        "BaseModel",
-        "Place",
-        "State",
-        "City",
-        "Amenity",
-        "Review"
-    }
-    prompt = "(hbnb) "
+    """Custom command interpreter"""
+    prompt = '(hbnb) '
 
-    def do_create(self, arg):
-        """
-        Creates a new instance of a Class
-        """
-        args = arg.split()
-        if len(args) < 1:
-            print("** class name missing **")
-            return
-
-        class_name = args[0]
-        if class_name not in self.all_classes:
-            print("** class doesn't exist **")
-            return
-
-        try:
-            cls = globals()[class_name]
-            new_inst = cls()
-            # Save the instance to the JSON file
-            new_inst.save()
-            print(new_inst.id)
-        except KeyError:
-            print("** class doesn't exist **")
-
-    def do_show(self, arg):
-        """
-        Prints the string representation of an instance
-        based on the class name and id.
-        """
-        args = arg.split()
-
-        if len(args) < 1:
-            print("** class name missing **")
-            return
-        elif len(args) < 2:
-            print("** instance id missing **")
-            return
-
-        class_name = args[0]
-        cls = globals().get(class_name)  # Get the class by name
-        id = args[1]
-
-        if class_name not in self.all_classes:
-            print("** class doesn't exist **")
-            return
-
-        instances_dict = storage.all()  # get stored objects as dict
-        id_list = []
-        for key in instances_dict:
-            class_name, inst_id = key.split(".")
-            id_list.append(inst_id)
-
-        if id in id_list:
-            instance = instances_dict["{}.{}".format(class_name, id)]
-
-            print(instance.__str__())
-        else:
-            print("** no instance found **")
-
-    def do_destroy(self, arg):
-        """Deletes an instance based on the class name and id"""
-        args = shlex.split(arg)
-
-        if len(args) < 1:
-            print("** class name missing **")
-            return
-        if args[0] not in HBNBCommand.all_classes:
-            print("** class doesn't exist **")
-            return
-        if len(args) < 2:
-            print("** instance id missing ***")
-            return
-
-        key = "{}.{}".format(args[0], args[1])
-        instances_dict = storage.all()  # get stored objects as dict
-        if key not in instances_dict:
-            print("** no instance found **")
-        else:
-            del instances_dict[key]
-            storage.save()
-
-    def do_all(self, arg):
-        """
-        Prints all string representations of instances based on the class name.
-        If no class name is provided, prints all instances.
-        """
-        args = arg.split()
-        obj_list = []
-        inst_dict = storage.all()
-        # Check if a valid class name is provided
-        if len(args) > 0 and args[0] not in HBNBCommand.all_classes:
-            print("** class doesn't exist **")
-            return
-
-        # Loop through instances and filter based on class name
-        for key in inst_dict:
-            inst = inst_dict[key]
-
-            # Check if the class matches the provided class name
-            temp = inst.__class__.__name__
-            if len(args) == 0 or (len(args) > 0 and args[0] == temp):
-                obj_list.append(inst_dict[key].__str__())
-            print(obj_list)
-
-    def do_update(self, arg):
-        """
-        Updates an instance based on the class name
-         and id by adding or updating attributes
-        """
-        args = arg.split()
-        if len(args) < 4:
-            print("** class name missing **")
-            return
-        if args[0] not in HBNBCommand.all_classes:
-            print("** class doesn't exist **")
-            return
-        if len(args) < 5:
-            print("** instance id missing **")
-            return
-        if len(args) < 6:
-            print("** attribute name missing ")
-            return
-        if len(args) < 7:
-            print("** value missing **")
-            return
-
-        class_name = args[0]
-        instance_id = args[1]
-        attr = args[2]
-        value = args[3]
-
-        objects_dict = storage.all()
-
-        # Construct the key based on class name and instance ID
-        key = "{}.{}".format(class_name, instance_id)
-
-        if key not in objects_dict:
-            print("** no instance found **")
-            return
-
-        # Check if the attribute is one of the non-updatable attributes
-        if attr in ["id", "created_at", "updated_at"]:
-            print("This attribute cannot be updated.")
-            return
-
-        obj = objects_dict[key]
-        setattr(obj, attr, value)
-        storage.save()
-
-    def do_quit(self, line):
-        """Quit command to exit the console"""
+    def do_EOF(self, args):
+        """EOF command to exit the program."""
+        print()
         return True
 
-    def do_EOF(self, line):
-        """ function to exit the cmd """
-        print("")
+    def help_help(self):
+        pass
+
+    def do_quit(self, args):
+        """Quit command to exit the program."""
         return True
-
-    def help_quit(self):
-        """ help guide for quit command """
-        print('Quit command to exit the program')
-
-    def help_EOF(self):
-        """ help guide for EOF command """
-        print('EOF command to exit the program')
 
     def emptyline(self):
-        """ handles empty lines """
+        """Called when empty line is entered in prompt."""
         pass
 
 
 if __name__ == '__main__':
-    if not sys.stdin.isatty():
-        for line in sys.stdin:
-            HBNBCommand().onecmd(line.strip())
-    else:
-        HBNBCommand().cmdloop()
+    HBNBCommand().cmdloop()
