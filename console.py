@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import cmd
-from models import *
 
 
 class HBNBCommand(cmd.Cmd):
