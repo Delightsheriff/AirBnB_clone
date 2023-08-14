@@ -58,7 +58,7 @@ class BaseModel:
         Convert the object to a dictionary.
         """
         result_dict = self.__dict__.copy()
-        result_dict['__class__'] = self.__class__.__name__
+        result_dict['__class__'] = type(self).__name__
         result_dict['created_at'] = result_dict['created_at'].isoformat()
         result_dict['updated_at'] = result_dict['updated_at'].isoformat()
         return result_dict
