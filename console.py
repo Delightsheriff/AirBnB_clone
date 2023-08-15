@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ The HBNB console """
 import cmd
+import shlex
 import sys
 from models.base_model import BaseModel
 from models import storage
@@ -46,14 +47,17 @@ class HBNBCommand(cmd.Cmd):
         class_name = args[0]
         if class_name not in self.all_classes:
             print("** class doesn't exist **")
+            return
 
-        else:
-            cls = globals()[class_name]
-            new_inst = cls()
-            # Save the instance to the JSON file            
-            new_inst.save()
-            print(new_inst.id)
-            print("** class doesn't exist **")
+        cls = globals()[class_name]
+        if cls is None:
+            print("** clase doesn't exist **")
+            return
+
+        new_inst = cls()
+        # Save the instance to the JSON file
+        new_inst.save()
+        print(new_inst.id)
 
     def do_show(self, arg):
         """
@@ -84,15 +88,17 @@ class HBNBCommand(cmd.Cmd):
             id_list.append(inst_id)
 
         if id in id_list:
-            instance = instances_dict["{}.{}".format(class_name, id)]
+            key = "{}.{}",format(class_name, id)
+            instance = instances_dict[key]
 
+            print(instance.__str__())
             print(instance.__str__())
         else:
             print("** no instance found **")
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id (save the change into the JSON file)."""
-        args = shlex.split(arg)
+        args = shlex.split()
 
         if len(args) < 1:
             print("** class name missing **")
@@ -142,20 +148,20 @@ class HBNBCommand(cmd.Cmd):
         Updates an instance based on the class name
          and id by adding or updating attributes
         """
-        args = arg.split()
-        if len(args) < 4:
+        args = shlex.split(arg)
+        if len(args) < 1:
             print("** class name missing **")
             return
         if args[0] not in HBNBCommand.all_classes:
             print("** class doesn't exist **")
             return
-        if len(args) < 5:
+        if len(args) < 2:
             print("** instance id missing **")
             return
-        if len(args) < 6:
+        if len(args) < 3:
             print("** attribute name missing ")
             return
-        if len(args) < 7:
+        if len(args) < 4:
             print("** value missing **")
             return
 
