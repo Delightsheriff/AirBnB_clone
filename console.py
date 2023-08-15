@@ -183,8 +183,4 @@ class HBNBCommand(cmd.Cmd):
         storage.save()
 
 if __name__ == '__main__':
-    if not sys.stdin.isatty():
-        for line in sys.stdin:
-            HBNBCommand().onecmd(line.strip())
-    else:
-        HBNBCommand().cmdloop()
+    HBNBCommand().cmdloop()
