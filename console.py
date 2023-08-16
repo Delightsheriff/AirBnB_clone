@@ -88,7 +88,7 @@ class HBNBCommand(cmd.Cmd):
             id_list.append(inst_id)
 
         if id in id_list:
-            key = "{}.{}",format(class_name, id)
+            key = "{}.{}".format(class_name, id)
             instance = instances_dict[key]
 
             print(instance.__str__())
@@ -188,5 +188,3 @@ class HBNBCommand(cmd.Cmd):
         setattr(obj, attr, value)
         storage.save()
 
-if __name__ == '__main__':
-    HBNBCommand().cmdloop()
