@@ -97,7 +97,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id (save the change into the JSON file)."""
-        args = shlex.split()
+        args = arg.split()
 
         if len(args) < 1:
             print("** class name missing **")
@@ -141,17 +141,6 @@ class HBNBCommand(cmd.Cmd):
 
        # Print the list of string representations
        print(obj_list)
-
-    def do_count(self, arg):
-        """ count number of instances """
-        count = 0
-        class_name = arg
-        all_instances = storage.all()
-        for key, obj in all_instances.items():
-            name = key.split(".")
-            if name[0] == class_name:
-                count += 1
-        print(count)
 
     def do_update(self, arg):
         """
@@ -198,3 +187,5 @@ class HBNBCommand(cmd.Cmd):
         setattr(obj, attr, value)
         storage.save()
 
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
