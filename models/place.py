@@ -25,6 +25,17 @@ class Place(BaseModel):
         amenity_ids (list): A list of IDs of the amenities that the place has.
     """
 
+
+    def __init__(self, *args, **kwargs):
+        """
+        Initializes a new instance object of the Place class.
+
+        Args:
+            *args (positional arg): Positional argument.
+            **kwargs (keyword arg): Key value pair arguments.
+        """
+
+        super().__init__(*args, **kwargs)
     city_id = ""
     user_id = ""
     name = ""
