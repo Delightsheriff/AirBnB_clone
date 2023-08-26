@@ -3,6 +3,7 @@
 import cmd
 import shlex
 import sys
+import models
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -15,15 +16,20 @@ from models.review import Review
 
 class HBNBCommand(cmd.Cmd):
     """The HBNB console"""
+
+    prompt = "(hbnb) "
     all_classes = {
         "BaseModel",
         "Place",
         "State",
         "City",
         "Amenity",
-        "Review"
+        "Review",
+        "User"
     }
-    prompt = "(hbnb) "
+
+    list_of_models = ["BaseModel", "User", "State",
+                      "Review", "City", "Amenity", "Place"]
 
 
     def do_help(self, line):
@@ -87,6 +93,7 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in self.all_classes:
             print("** class doesn't exist **")
             return
+
 
         instances_dict = storage.all()  # get stored objects as dict
         id_list = []
