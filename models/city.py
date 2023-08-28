@@ -8,8 +8,21 @@ class City(BaseModel):
     City class
 
     Attributes:
-        state_id (str): The ID of the state that the city is in.
+        city_id (str): The ID of the city.
         name (str): The city's name.
     """
-    state_id = ""
-    name = ""
+    def __init__(self, *args, **kwargs):
+        """
+            Initialize clss user with kwargs
+            Args:
+                *args(positional arg): strings
+                **kwargs(keyword arg): dictionary
+        """
+        super().__init__(*args, **kwargs)
+        self.city_id = ""
+        self.name = ""
+        super().__init__(*args, **kwargs)
+        self.city_id = ""
+        self.name = ""
+    #state_id = ""
+    #name = ""
