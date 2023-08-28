@@ -16,13 +16,13 @@ from models.base_model import BaseModel
 class HBNBCommand(cmd.Cmd):
     """The HBNB console"""
     all_classes = {
-        BaseModel,
-        Place,
-        State,
-        City,
-        Amenity,
-        Review,
-        User
+        "BaseModel",
+        "Place",
+        "State",
+        "City",
+        "Amenity",
+        "Review",
+        "User"
     }
     prompt = "(hbnb) "
 
