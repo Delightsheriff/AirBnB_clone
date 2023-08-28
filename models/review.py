@@ -11,10 +11,18 @@ class Review(BaseModel):
     Review class
 
     Attributes:
-        place_id (str): The ID of the place that the review is for.
+        review_id (str): The ID of review.
         user_id (str): The ID of the user who wrote the review.
         text (str): The text of the review.
     """
-    place_id = ""
-    user_id = ""
-    text = ""
+    def __init__(self, *args, **kwargs):
+        """
+            Initialize class user with kwargs
+            Args:
+                *args(positional arg): strings
+                **kwargs(keyword arg): dictionary
+        """
+        super().__init__(*args, **kwargs)
+        self.review_id = ""
+        self.user_id = ""
+        self.text = ""
