@@ -92,12 +92,13 @@ class HBNBCommand(cmd.Cmd):
             instance = instances_dict[key]
 
             print(instance.__str__())
+            print(instance.__str__())
         else:
             print("** no instance found **")
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id (save the change into the JSON file)."""
-        args = arg.split()
+        args = shlex.split()
 
         if len(args) < 1:
             print("** class name missing **")
