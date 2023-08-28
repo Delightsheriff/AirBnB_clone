@@ -151,7 +151,7 @@ class HBNBCommand(cmd.Cmd):
        print(obj_list)
 
 
-     def do_count(self, arg):
+    def do_count(self, arg):
         """ count instances """
         count = 0
         class_name = arg
@@ -161,8 +161,7 @@ class HBNBCommand(cmd.Cmd):
             if name[0] == class_name:
                 count += 1
         print(count)
-         
-    
+
 
     def do_update(self, arg):
         """
