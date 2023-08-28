@@ -3,6 +3,8 @@
 which represents a state in the system.
 """
 from models.base_model import BaseModel
+from models.user import User
+
 
 
 class State(BaseModel):
@@ -12,14 +14,12 @@ class State(BaseModel):
     Attributes:
         name (str): The state's name.
     """
-     def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
-            Initialize clss user with kwargs
-            Args:
-                *args(positional arg): strings
-                **kwargs(keyword arg): dictionary
+        Initialize State instance with kwargs
+        Args:
+            *args (positional args): strings
+            **kwargs (keyword args): dictionary
         """
         super().__init__(*args, **kwargs)
-        self.state_id = ""
-        self.user_id = ""
-        self.text = ""
+        self.name = ""
