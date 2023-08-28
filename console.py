@@ -3,8 +3,16 @@
 import cmd
 import shlex
 import sys
-from models.base_model import BaseModel
 from models import storage
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+from models.base_model import BaseModel
+
+
 
 class HBNBCommand(cmd.Cmd):
     """The HBNB console"""
@@ -14,7 +22,8 @@ class HBNBCommand(cmd.Cmd):
         "State",
         "City",
         "Amenity",
-        "Review"
+        "Review",
+        "User"
     }
     prompt = "(hbnb) "
 
@@ -142,6 +151,17 @@ class HBNBCommand(cmd.Cmd):
        # Print the list of string representations
        print(obj_list)
 
+    def do_count(self, arg):
+        """ count instances """
+        count = 0
+        class_name = arg
+        all_instances = storage.all()
+        for key, obj in all_instances.items():
+            name = key.split(".")
+            if name[0] == class_name:
+                count += 1
+        print(count)
+    
     def do_update(self, arg):
         """
         Updates an instance based on the class name
