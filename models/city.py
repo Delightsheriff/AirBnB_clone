@@ -11,5 +11,15 @@ class City(BaseModel):
         state_id (str): The ID of the state that the city is in.
         name (str): The city's name.
     """
-    state_id = ""
-    name = ""
+    def __init__(self, *args, **kwargs):
+        """
+            Initialize class user with kwargs
+            Args:
+                *args(positional arg): strings
+                **kwargs(keyword arg): dictionary
+        """
+        super().__init__(*args, **kwargs)
+        self.city_id = ""
+        self.name = ""
+    #state_id = ""
+    #name = ""
