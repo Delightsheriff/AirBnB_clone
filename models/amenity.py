@@ -15,8 +15,7 @@ class Amenity(BaseModel):
     Attributes:
         name (str): The name of the amenity.
     """
-    name = ""
-     def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
             Initialize clss user with kwargs
             Args:
