@@ -5,7 +5,12 @@ and deserializes JSON file to instances
 """
 
 import json
-import models
+from models.user import User
+from models.city import City
+from models.state import State
+from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
 from models.base_model import BaseModel
 
 
@@ -14,7 +19,7 @@ class FileStorage:
     This class is responsible for storing and retrieving instances
     of the BaseModel class to a JSON file.
     """
-    __file_path = "file.json"
+       __file_path = "file.json"
     __objects = {}
 
     @classmethod
