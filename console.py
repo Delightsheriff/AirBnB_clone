@@ -150,17 +150,6 @@ class HBNBCommand(cmd.Cmd):
 
        # Print the list of string representations
        print(obj_list)
-
-    def do_count(self, arg):
-        """ count instances """
-        count = 0
-        class_name = arg
-        all_instances = storage.all()
-        for key, obj in all_instances.items():
-            name = key.split(".")
-            if name[0] == class_name:
-                count += 1
-        print(count)
     
     def do_update(self, arg):
         """
