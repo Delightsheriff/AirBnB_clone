@@ -13,12 +13,12 @@ class User(BaseModel):
         first_name (str): The user's first name.
         last_name (str): The user's last name.
     """
-     def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
-            Initialize clss user with kwargs
-            Args:
-                *args(positional arg): strings
-                **kwargs(keyword arg): dictionary
+        Initialize User instance with kwargs
+        Args:
+            *args (positional args): strings
+            **kwargs (keyword args): dictionary
         """
         super().__init__(*args, **kwargs)
         self.email = ""
