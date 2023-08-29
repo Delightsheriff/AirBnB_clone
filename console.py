@@ -169,19 +169,19 @@ class HBNBCommand(cmd.Cmd):
          and id by adding or updating attributes
         """
         args = shlex.split(arg)
-        if len(args) < 1:
+        if len(args) == 0:
             print("** class name missing **")
             return
-        if args[0] not in HBNBCommand.all_classes:
+        elif args[0] not in HBNBCommand.all_classes:
             print("** class doesn't exist **")
             return
-        if len(args) < 2:
+        elif len(args) == 1:
             print("** instance id missing **")
             return
-        if len(args) < 3:
+        elif len(args) == 2:
             print("** attribute name missing ")
             return
-        if len(args) < 4:
+        elif len(args) == 3:
             print("** value missing **")
             return
 
@@ -190,7 +190,10 @@ class HBNBCommand(cmd.Cmd):
         attr = args[2]
         value = args[3]
 
-        objects_dict = storage.all()
+        try:
+            objects_dict = storage.all()
+        except Exception as e:
+            print("An error occured while retrieving objects:", str(e))
 
         # Construct the key based on class name and instance ID
         key = "{}.{}".format(class_name, instance_id)
@@ -206,7 +209,57 @@ class HBNBCommand(cmd.Cmd):
 
         obj = objects_dict[key]
         setattr(obj, attr, value)
-        storage.save()
+        try:
+            storage.save()
+        except Exception as e:
+            print("An error occurred while saving the object:", str (e))
 
+
+
+    def default(self, arg):
+        """ Overwrite default behavior for commands cls.method() """
+    
+        regex = re.match(r"(\w+\.\w+)(.*)", arg)
+        list_command_args = ["do_show", "do_destroy"]
+    
+        # Check if expression matches cls.method()
+        if regex:
+            # Get class name and method to call from the passed string
+            grp1 = regex.group(1)
+            class_name, method_name = grp1.split(".")
+            full_method_name = "do_" + method_name
+            method = getattr(self, full_method_name)
+        
+            if full_method_name in ["do_all", "do_count"]:
+                 method(class_name)
+            elif full_method_name in list_command_args:
+            # Get the ID as it is needed for this list of commands
+                regex1 = re.match(r'\(\"(.*)\"\)', regex.group(2))
+                if regex1:
+                    id = regex1.group(1)
+                    method(f"{class_name} {id}")
+                else:
+                     method(f"{class_name}")
+            elif full_method_name == "do_update":
+                regex1 = re.findall(r'[\w\-\@\.]+', regex.group(2))
+                if len(regex1) == 3:
+                args = " ".join(regex1)
+                method(f"{class_name} {args}")
+            elif len(regex1) > 3:
+                new_list = []
+                new_list.append(regex1[0])
+                for i, arg in enumerate(regex1):
+                    if i == 0:
+                        continue
+                    new_list.append(arg)
+                    if i % 2 == 0:
+                        args = " ".join(new_list)
+                        method(f"{class_name} {args}")
+                        new_list = []
+                        new_list.append(regex1[0])
+    else:
+        return super().default(arg)
+
+     
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
