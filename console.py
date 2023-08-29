@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-""" The HBNB console """
+"""
+   The HBNB console
+"""
+
 import cmd
 import shlex
 import sys
@@ -26,6 +29,8 @@ class HBNBCommand(cmd.Cmd):
     }
     prompt = "(hbnb) "
 
+    list_of_models = ["BaseModel", "User", "State",
+                      "Review", "City", "Amenity", "Place"]
 
     def do_help(self, line):
         """overrides help method"""
@@ -209,6 +214,7 @@ class HBNBCommand(cmd.Cmd):
         obj = objects_dict[key]
         setattr(obj, attr, value)
         storage.save()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
