@@ -5,6 +5,7 @@ and deserializes JSON file to instances
 """
 
 import json
+from models import BaseModel
 from models.user import User
 from models.city import City
 from models.state import State
@@ -19,7 +20,7 @@ class FileStorage:
     This class is responsible for storing and retrieving instances
     of the BaseModel class to a JSON file.
     """
-       __file_path = "file.json"
+    __file_path = "file.json"
     __objects = {}
 
     @classmethod
@@ -53,20 +54,18 @@ class FileStorage:
             json.dump(data, W_file)
 
     @classmethod
-    def reload(cls):
+    def reload(self):
         """
-        Deserializes the JSON file to the dictionary of stored instances.
+        This method deserializes the JSON file to __objects
         """
         try:
-            with open(cls.__file_path, 'r', encoding="utf-8") as R_file:
-                deserial = json.load(R_file)
+            with open(self.__file_path, "r", encoding="utf-8") as file:
+                original_dic = json.load(file)  # Get the JSON string
 
-                for key, obj in deserial.items():
-                    # Check if the class inherits from BaseModel
-                    cls_name = obj["__class__"]
-                    temp = models.base_model.BaseModel
-                    if issubclass(models.__dict__[cls_name], temp):
-                        # Create an instance of the class with **kwargs
-                        cls.__objects[key] = models.__dict__[cls_name](**obj)
+        # Loop through the dictionary
+            for key, value in original_dic.items():
+                new_object = key.split(".")
+                class_name = new_object[0]  # Get the class name
+                self.new(eval("{}".format(class_name))(**value))  # Create a new object instance
         except FileNotFoundError:
             pass

@@ -2,6 +2,7 @@
 """__init__ magic method for models directory"""
 
 from models.engine.file_storage import FileStorage
+
 """Initialize the package"""
 
 storage = FileStorage()

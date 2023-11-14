@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-""" The HBNB console """
+"""
+   The HBNB console
+"""
+
 import cmd
 import shlex
 import sys
@@ -26,6 +29,8 @@ class HBNBCommand(cmd.Cmd):
     }
     prompt = "(hbnb) "
 
+    list_of_models = ["BaseModel", "User", "State",
+                      "Review", "City", "Amenity", "Place"]
 
     def do_help(self, line):
         """overrides help method"""
@@ -100,12 +105,13 @@ class HBNBCommand(cmd.Cmd):
             instance = instances_dict[key]
 
             print(instance.__str__())
+            print(instance.__str__())
         else:
             print("** no instance found **")
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id (save the change into the JSON file)."""
-        args = arg.split()
+        args = shlex.split()
 
         if len(args) < 1:
             print("** class name missing **")
@@ -216,6 +222,7 @@ class HBNBCommand(cmd.Cmd):
 
 
 
+
     def default(self, arg):
         """ Overwrite default behavior for commands cls.method() """
     
@@ -258,8 +265,8 @@ class HBNBCommand(cmd.Cmd):
                         new_list = []
                         new_list.append(regex1[0])
     else:
-        return super().default(arg)
+        return super().default(arg
 
-     
+                               
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
